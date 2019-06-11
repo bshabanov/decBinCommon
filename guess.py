@@ -1,0 +1,89 @@
+import sys
+import curses
+
+max_power = 0
+max_number = 0
+
+def run(window, max_number, max_power):
+    window.clear()
+    window.refresh()
+
+    curses.curs_set(0)
+    curses.start_color()
+    curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
+    curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
+
+    # Map for tile to render
+    tile_map = dict()
+
+    # Fill all numbers in tiles
+    for i in range( 1, max_number+1 ):
+        for bw in range(0, max_power):
+            if i & ( 1<<bw  ):
+                tile_map.setdefault(bw, []).append(i)
+
+
+    command = 0
+    score = 0
+
+    for row in tile_map.keys():
+        reshaped = dict();
+        for index in range(len(tile_map[row])):
+            reshaped.setdefault(int(index/max_power),  []).append(tile_map[row][index])
+
+        window.clear()
+        window.addstr( 2, 5, "Do you see your number?", curses.color_pair(1))
+        for index in reshaped.keys():
+            window.addstr(4+index, 5, ", ".join(format(e, "02") for e in reshaped[index]), curses.color_pair(1))
+
+        listLen = len(reshaped.keys())
+        mod = 5
+        picked = False
+        scoreMod = 0
+
+        window.addstr(listLen+mod, 4, " Yes ", curses.color_pair(1))
+        window.addstr(listLen+mod, 10, " No ", curses.color_pair(1))
+
+        while command != 10 or picked == False:
+            if command == curses.KEY_LEFT:
+                window.addstr(listLen+mod, 4, " Yes ", curses.color_pair(2))
+                window.addstr(listLen+mod, 10, " No ", curses.color_pair(1))
+                picked = True
+                scoreMode = 2**row
+               
+            if command == curses.KEY_RIGHT:
+                window.addstr(listLen+mod, 4, " Yes ", curses.color_pair(1))
+                window.addstr(listLen+mod, 10, " No ", curses.color_pair(2))
+                picked = True
+                scoreMode = 0
+
+            command = window.getch()
+        command = 0
+        picked = False
+        score += scoreMode
+        scoreMode = 0
+
+    # Show number
+    window.clear()
+    window.addstr( 4, 5, "                     ", curses.color_pair(2))
+    window.addstr( 5, 5, "  Your number is:" + format(score, "02")+"  ", curses.color_pair(2))
+    window.addstr( 6, 5, "                     ", curses.color_pair(2))
+
+    window.getch()
+
+
+def __main__(mn):
+
+    # Get how many bits are needet to fit the number
+    max_number = mn
+    max_power = max_number.bit_length()
+    # Render screen
+    curses.wrapper(run, max_number, max_power)
+
+
+# init
+try:
+    __main__( int(sys.argv[1]) )
+except Exception as inst:
+    print( "Usage:", sys.argv[0], "NUMBER", "\nPython will guess the number between 1 and NUMBER", "\nExample: python", sys.argv[0], "10" )
+
