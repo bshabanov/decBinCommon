@@ -1,9 +1,6 @@
 import sys
 import curses
 
-max_power = 0
-max_number = 0
-
 def run(window, max_number, max_power):
     window.clear()
     window.refresh()
@@ -29,7 +26,7 @@ def run(window, max_number, max_power):
     for row in tile_map.keys():
         reshaped = dict();
         for index in range(len(tile_map[row])):
-            reshaped.setdefault(int(index/max_power),  []).append(tile_map[row][index])
+            reshaped.setdefault(int(index/10),  []).append(tile_map[row][index])
 
         window.clear()
         window.addstr( 2, 5, "Do you see your number?", curses.color_pair(1))
@@ -41,19 +38,19 @@ def run(window, max_number, max_power):
         picked = False
         scoreMod = 0
 
-        window.addstr(listLen+mod, 4, " Yes ", curses.color_pair(1))
-        window.addstr(listLen+mod, 10, " No ", curses.color_pair(1))
+        window.addstr(listLen+mod, 4, "  Yes ", curses.color_pair(1))
+        window.addstr(listLen+mod, 10, "  No ", curses.color_pair(1))
 
         while command != 10 or picked == False:
             if command == curses.KEY_LEFT:
-                window.addstr(listLen+mod, 4, " Yes ", curses.color_pair(2))
-                window.addstr(listLen+mod, 10, " No ", curses.color_pair(1))
+                window.addstr(listLen+mod, 4, " ►Yes ", curses.color_pair(2))
+                window.addstr(listLen+mod, 10, "  No ", curses.color_pair(1))
                 picked = True
                 scoreMode = 2**row
                
             if command == curses.KEY_RIGHT:
-                window.addstr(listLen+mod, 4, " Yes ", curses.color_pair(1))
-                window.addstr(listLen+mod, 10, " No ", curses.color_pair(2))
+                window.addstr(listLen+mod, 4, "  Yes ", curses.color_pair(1))
+                window.addstr(listLen+mod, 10, " ►No ", curses.color_pair(2))
                 picked = True
                 scoreMode = 0
 
@@ -73,13 +70,9 @@ def run(window, max_number, max_power):
     window.getch()
 
 
-def __main__(mn):
-
-    # Get how many bits are needet to fit the number
-    max_number = mn
-    max_power = max_number.bit_length()
+def __main__(n):
     # Render screen
-    curses.wrapper(run, max_number, max_power)
+    curses.wrapper(run, n, n.bit_length())
 
 
 # init
