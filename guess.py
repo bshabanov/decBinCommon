@@ -1,7 +1,7 @@
 import sys
 import curses
 
-def run(window, max_number, max_power):
+def run(window, number, power):
     window.clear()
     window.refresh()
 
@@ -14,8 +14,8 @@ def run(window, max_number, max_power):
     tile_map = dict()
 
     # Fill all numbers in tiles
-    for i in range( 1, max_number+1 ):
-        for bw in range(0, max_power):
+    for i in range( 1, number+1 ):
+        for bw in range(0, power):
             if i & ( 1<<bw  ):
                 tile_map.setdefault(bw, []).append(i)
 
@@ -31,7 +31,7 @@ def run(window, max_number, max_power):
         window.clear()
         window.addstr( 2, 5, "Do you see your number?", curses.color_pair(1))
         for index in reshaped.keys():
-            window.addstr(4+index, 5, ", ".join(format(e, str(len(str(max_number)))) for e in reshaped[index]), curses.color_pair(1))
+            window.addstr(4+index, 5, ", ".join(format(e, str(len(str(number)))) for e in reshaped[index]), curses.color_pair(1))
 
         listLen = len(reshaped.keys())
         mod = 5
