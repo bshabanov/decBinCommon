@@ -34,7 +34,7 @@ def run(window, max_number, max_power):
         window.clear()
         window.addstr( 2, 5, "Do you see your number?", curses.color_pair(1))
         for index in reshaped.keys():
-            window.addstr(4+index, 5, ", ".join(format(e, "02") for e in reshaped[index]), curses.color_pair(1))
+            window.addstr(4+index, 5, ", ".join(format(e, str(len(str(max_number)))) for e in reshaped[index]), curses.color_pair(1))
 
         listLen = len(reshaped.keys())
         mod = 5
@@ -64,10 +64,11 @@ def run(window, max_number, max_power):
         scoreMode = 0
 
     # Show number
+    boxtemplate = "" * (21 + len(str(score)))
     window.clear()
-    window.addstr( 4, 5, "                     ", curses.color_pair(2))
-    window.addstr( 5, 5, "  Your number is:" + format(score, "02")+"  ", curses.color_pair(2))
-    window.addstr( 6, 5, "                     ", curses.color_pair(2))
+    window.addstr( 4, 5, boxtemplate, curses.color_pair(2))
+    window.addstr( 5, 5, "  Your number is: " + str(score)+"  ", curses.color_pair(2))
+    window.addstr( 6, 5, boxtemplate, curses.color_pair(2))
 
     window.getch()
 
@@ -85,5 +86,7 @@ def __main__(mn):
 try:
     __main__( int(sys.argv[1]) )
 except Exception as inst:
-    print( "Usage:", sys.argv[0], "NUMBER", "\nPython will guess the number between 1 and NUMBER", "\nExample: python", sys.argv[0], "10" )
+    print( "Usage:", sys.argv[0], "NUMBER", "\nPython will guess the number between 1 and NUMBER", "\nExample: python", sys.argv[0], "10", ex)
+except:
+    print(ex)
 
