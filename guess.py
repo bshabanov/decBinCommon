@@ -86,7 +86,5 @@ def __main__(mn):
 try:
     __main__( int(sys.argv[1]) )
 except Exception as inst:
-    print( "Usage:", sys.argv[0], "NUMBER", "\nPython will guess the number between 1 and NUMBER", "\nExample: python", sys.argv[0], "10", ex)
-except:
-    print(ex)
+    print( "Usage:", sys.argv[0], "NUMBER", "\nPython will guess the number between 1 and NUMBER", "\nExample: python", sys.argv[0], "10" )
 
