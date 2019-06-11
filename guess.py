@@ -85,6 +85,8 @@ def __main__(mn):
 # init
 try:
     __main__( int(sys.argv[1]) )
+except curses.error as error:
+    print( "Screen is too small to print numbers. Try with smaller NUMBER" )
 except Exception as inst:
     print( "Usage:", sys.argv[0], "NUMBER", "\nPython will guess the number between 1 and NUMBER", "\nExample: python", sys.argv[0], "10" )
 
