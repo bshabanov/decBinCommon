@@ -53,16 +53,14 @@ def move(command):
     global position
     if (command == 260 and position > 0):
         position-=1
-        steps+=1
     if (command == 261 and position < 2):
         position+=1
-        steps+=1
     if (command == 32):
         if (lock):
             if (poles[position]<carry):
                 poles[position] |= carry
                 carry = 0b000
-
+                steps+=1
         if (not lock):
             for i in range(3):
                 j = 2-i
