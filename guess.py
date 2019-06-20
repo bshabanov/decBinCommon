@@ -38,19 +38,19 @@ def run(window, number, power):
         picked = False
         scoreMod = 0
 
-        window.addstr(listLen+mod, 4, "  Yes ", curses.color_pair(1))
-        window.addstr(listLen+mod, 10, "  No ", curses.color_pair(1))
+        window.addstr(listLen+mod, 4, " Yes ", curses.color_pair(1))
+        window.addstr(listLen+mod, 10, " No ", curses.color_pair(1))
 
         while command != 10 or picked == False:
             if command == curses.KEY_LEFT:
-                window.addstr(listLen+mod, 4, " ►Yes ", curses.color_pair(2))
-                window.addstr(listLen+mod, 10, "  No ", curses.color_pair(1))
+                window.addstr(listLen+mod, 4, " Yes ", curses.color_pair(2))
+                window.addstr(listLen+mod, 10, " No ", curses.color_pair(1))
                 picked = True
                 scoreMode = 2**row
                
             if command == curses.KEY_RIGHT:
-                window.addstr(listLen+mod, 4, "  Yes ", curses.color_pair(1))
-                window.addstr(listLen+mod, 10, " ►No ", curses.color_pair(2))
+                window.addstr(listLen+mod, 4, " Yes ", curses.color_pair(1))
+                window.addstr(listLen+mod, 10, " No ", curses.color_pair(2))
                 picked = True
                 scoreMode = 0
 
